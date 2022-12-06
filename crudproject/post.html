@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head><title>Angular Rest Create</title>
+<!--Using a content delivery network - watch if they go down so does your site-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+</head>
+<body data-ng-app>
+    <form data-ng-submit="submit()" data-ng-controller="Ctrl">
+    <p>Student ID: <input data-ng-model="studentID" /></p>
+    <p>Student Name: <input data-ng-model="studentName" /></p>
+    <p>Student SSN: <input data-ng-model="studentSSN" /></p>
+    <p>Student Email: <input data-ng-model="studentEmail" /></p>
+    <p>Student Phone: <input data-ng-model="studentPhone" /></p>
+    <p><input type="submit" id="submit" value="Submit" /></p>
+    <p>Request: {{ request }}</p>
+    <p>Response: {{ response }}</p>
+</form>
+     <p><a href="create.html">Create Page</a></p>
+     <p><a href="read.html">Read Page</a></p>
+     <p><a href="update.html">Update Page</a></p>
+     <p><a href="delete.html">Delete Page</a> </p>
+     <p><a href="post.html">Post Page</a> </p>
+    <p><a href="readAll.html">Read All Page</a> </p>
+</body>
+<script>
+    function Ctrl($scope) {
+        $scope.submit = function () {
+            var query = "http://localhost:3000/Create";
+            var student = {
+                studentID: $scope.studentID,
+                studentName: $scope.studentName,
+                studentSSN: $scope.studentSSN,
+                studentEmail: $scope.studentEmail,
+                studentPhone: $scope.studentPhone
+            };
+            $scope.request = student;
+            $.ajax({url: query, crossDomain: true, data:student, dataType:'json', type: 'POST'})
+            .done(function (json) {
+                $scope.response = json.result;
+                $scope.$apply();
+            })
+            .fail(function () {
+                alert("Error");
+            });
+        }
+    }
+    </script>
+</html>
